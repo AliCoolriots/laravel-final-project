@@ -25,6 +25,11 @@ class Developer extends Model
 
     public function leadingProjects()
     {
-        return $this->hasMany(Project::class, 'leaderDeveloper_id');
+        return $this->hasMany(Project::class, 'leader_developer_id');
     }
+
+    public function progress()
+    {
+        return $this->hasMany(Progress::class, 'leader_developer_id');
+    }   
 }

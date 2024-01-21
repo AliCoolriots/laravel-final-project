@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Request extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'description',
+        'status',
+        'type',
+        'system_name',
+        'system_id',
+        'owner_id',
+    ];
+
+    public function owner()
+    {
+        return $this->belongsTo(Owner::class);
+    }
 }

@@ -13,19 +13,21 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->string('system_name');
-            $table->string('bu_name');
-            $table->string('system_pic');
+            $table->string('system_name', 50);
+            $table->string('owner_name', 30);
+            $table->string('system_pic', 30);
             $table->date('start_date');
             $table->integer('duration');
             $table->date('end_date');
-            $table->string('status');
-            $table->string('development_methodology');
-            $table->string('system_platform');
-            $table->string('deployment_type');
-            $table->string('request_status');
-            $table->foreignId('leader_developer_id')->nullable()->constrained('developers')->cascadeOnDelete();
+            $table->string('status', 30);
+            $table->string('development_methodology', 30);
+            $table->string('system_platform', 30);
+            $table->string('deployment_type', 30);
+            $table->string('request_type', 30);
+            $table->tinyInteger('approved')->default(0);
+            $table->foreignId('leader_developer_id')->constrained('developers')->cascadeOnDelete();
             $table->foreignId('system_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('owner_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

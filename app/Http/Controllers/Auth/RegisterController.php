@@ -81,7 +81,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $manager =  Manager::create([
+        // $owner =  Owner::create([
+        //     'name' => $data['name'],
+        // ]);
+
+        // $manager =  Manager::create([
+        //     'name' => $data['name'],
+        // ]);
+
+        $developer =  Developer::create([
             'name' => $data['name'],
         ]);
 
@@ -90,9 +98,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            // 'owner_id' => $owner->id,
-            'manager_id' => $manager->id,
-            // 'developer_id' => $developer->id,
+            'user_id' => $developer->id,
         ]);
     }
 }

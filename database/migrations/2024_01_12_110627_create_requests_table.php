@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('owner_id')->constrained()->cascadeOnDelete();
+            $table->string('description', 255);
+            $table->string('system_name', 50);
+            $table->string('status', 30);
+            $table->string('type', 30);
+            $table->foreignId('system_id')->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

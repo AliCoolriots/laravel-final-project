@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Progress extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['date', 'description', 'project_id','leader_developer_id'];
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    public function developer()
+    {
+        return $this->belongsTo(Developer::class, 'leader_developer_id');
+    }
 }

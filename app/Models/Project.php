@@ -10,9 +10,8 @@ class Project extends Model
     use HasFactory;
 
     protected $fillable = [
-
         'system_name',
-        'bu_name',
+        'owner_name',
         'system_pic',
         'start_date',
         'duration',
@@ -21,9 +20,11 @@ class Project extends Model
         'development_methodology',
         'system_platform',
         'deployment_type',
+        'request_type',
+        'approved',
         'leader_developer_id',
         'system_id',
-        'request_status',
+        'owner_id',
     ];
 
     public function developers()
@@ -34,5 +35,10 @@ class Project extends Model
     public function leaderdeveloper()
     {
         return $this->belongsTo(Developer::class, 'leader_developer_id');
+    }
+
+    public function progress()
+    {
+        return $this->hasMany(Progress::class);
     }
 }

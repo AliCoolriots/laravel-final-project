@@ -17,4 +17,14 @@ class Owner extends Model
     {
         return $this->hasOne(User::class);
     }
+
+    public function requests()
+    {
+        return $this->hasMany(Request::class);
+    }
+
+    public function systems()
+    {
+        return $this->hasMany(System::class);
+    }
 }
