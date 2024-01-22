@@ -14,6 +14,9 @@ class Request extends Model
         'status',
         'type',
         'system_name',
+        'development_methodology',
+        'system_platform',
+        'deployment_type',
         'system_id',
         'owner_id',
     ];

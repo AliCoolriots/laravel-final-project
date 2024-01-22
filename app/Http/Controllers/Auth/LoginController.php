@@ -39,15 +39,15 @@ class LoginController extends Controller
     }
 
     protected function redirectTo()
-{
-    if (auth()->user()->role == 'owner') {
-        return '/owner';
-    } elseif (auth()->user()->role == 'manager') {
-        return '/manager';
-    } elseif (auth()->user()->role == 'developer') {
-        return '/developer';
-    }
+    {
+        if (auth()->user()->role == 'owner') {
+            return '/owner';
+        } elseif (auth()->user()->role == 'manager') {
+            return '/manager';
+        } elseif (auth()->user()->role == 'developer') {
+            return '/developer/projects';
+        }
 
-    return '/';
-}
+        return '/';
+    }
 }

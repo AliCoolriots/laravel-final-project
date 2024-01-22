@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('description', 255);
             $table->string('system_name', 50);
             $table->string('status', 30);
+            $table->string('development_methodology', 30);
+            $table->string('system_platform', 30);
+            $table->string('deployment_type', 30);
             $table->string('type', 30);
             $table->foreignId('system_id')->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();

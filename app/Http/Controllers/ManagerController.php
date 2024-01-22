@@ -22,16 +22,34 @@ class ManagerController extends Controller
         return view('manager.index',compact('manager','requests'));
     }
 
-    public function viewRequest($id)
+    public function showProfile()
+    {
+        $user = auth()->user();
+        $role = 'Manager';
+        return view('auth.profile',compact('user','role'));
+    }
+
+    public function requestDetails($id)
     {
         $request = RequestModel::where('id', $id)->first(); 
         
         if($request && $request->status == 'pending')
-            return view('manager.view-request',compact('request'));
+            return view('manager.request-details',compact('request'));
         else
-            return redirect('manager/');
-
+            abort(404);
     }
+
+
+    public function showProjects()
+    {
+        $activeProjects = Project::where('approved', 0)->get();
+        $completedProjects = Project::where('approved', 1)->get();
+
+        $path = 'manager';
+
+        return view('mutual.projects',compact('activeProjects','completedProjects','path'));
+    }
+    
 
     public function createProject($id)
     {
@@ -42,28 +60,12 @@ class ManagerController extends Controller
         if($request && $request->status == 'pending')
             return view('manager.create-project',compact('developers','id','request'));
         else
-            return redirect('manager/');
+            abort(404);
     }
 
 
     public function storeProject(Request $request,$id)
     {
-        // $validatedData = $request->validate([
-        //     'system_name' => 'required|string',
-        //     'owner_name' => 'required|string',
-        //     'system_pic' => 'required|string',
-        //     'start_date' => 'required|date',
-        //     'duration' => 'required|numeric',
-        //     'end_date' => 'required|date',
-        //     'status' => 'required|string|in:ahead_of_schedule,on_schedule,delayed,completed',
-        //     'development_methodology' => 'required|string',
-        //     'system_platform' => 'required|string',
-        //     'deployment_type' => 'required|string',
-        //     'leader_developer_id' => 'required|exists:developers,id',
-        //     'developers' => 'required|array',
-        //     'developers.*' => 'exists:developers,id',
-        // ]);
-
         $requestPending = RequestModel::where('id', $id)->first();  
 
         $developer = Developer::where('id',$request->leader_developer_id)->first();
@@ -99,33 +101,28 @@ class ManagerController extends Controller
     
     }
 
-    public function viewProjects()
-    {
-        $activeProjects = Project::where('approved', 0)->get();
-        $completedProjects = Project::where('approved', 1)->get();
-
-        return view('manager.projects',compact('activeProjects','completedProjects'));
-    }
 
     public function projectDetails($id)
     {
         $project = Project::with('developers')->find($id);
+        $path = 'manager';
 
         if (!$project)
             abort(404); 
 
-        return view('manager.project-details',compact('project'));
+        return view('mutual.project-details',compact('project','path'));
     }
 
-    public function viewProgress($id)
+    public function showProgress($id)
     {
         $progress = Progress::where('project_id',$id)->get();
-        $project = Project::where('id', $id)->first(); 
+        $project = Project::where('id', $id)->first();
+        $path = 'manager'; 
 
         if (!$project)
             abort(404); 
 
-        return view('manager.progress',compact('project','progress'));
+        return view('mutual.progress',compact('project','progress','path'));
     }
 
     public function approveProject($id)
@@ -169,7 +166,6 @@ class ManagerController extends Controller
             abort(404); 
 
         return view('manager.edit-project',compact('developers', 'project', 'id'));
-       
     }
 
     public function updateProject(Request $request, $id)
@@ -196,14 +192,30 @@ class ManagerController extends Controller
         $project->developers()->sync($request->developers);
 
         return redirect('manager/projects/'.$id);
-       
     }
 
-    public function viewProfile()
+
+    public function searchProjects(Request $request)
     {
-        $user = auth()->user();
-        $role = 'Manager';
-        return view('auth.profile',compact('user','role'));
+        $query = $request->query('query');
+
+        $projects = Project::where('system_name', 'like', "%$query%")->get();
+
+        $activeProjects = [];
+        $completedProjects = [];
+
+        foreach($projects as $project)
+        {
+            if($project->approved == 1)
+                array_push($completedProjects, $project);
+            else
+                array_push($activeProjects, $project);
+        }
+
+        $path = 'manager';
+
+        return view('mutual.projects',compact('activeProjects','completedProjects','path'));
     }
+
 }
 

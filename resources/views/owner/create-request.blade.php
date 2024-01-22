@@ -18,6 +18,28 @@
                         <textarea class="form-control" name="system_description" placeholder="Enter System Description" maxlength="255" required rows="5"></textarea>
                     </div>
 
+                    <div class="mb-3">
+                        <label for="development_methodology" class="form-label">Development Methodology</label>
+                        <input type="text" class="form-control" id="development_methodology" name="development_methodology" required>
+                    </div>
+        
+                    <div class="mb-3">
+                        <label for="system_platform" class="form-label">System Platform</label>
+                        <select class="form-select" id="system_platform" name="system_platform" required>
+                            <option value="web-based"  selected >web-based</option>
+                            <option value="mobile">mobile</option>
+                            <option value="stand-alone-system"> stand-alone system</option>
+                        </select>
+                    </div>
+        
+                    <div class="mb-3">
+                        <label for="deployment_type" class="form-label">Deployment Type</label>
+                        <select class="form-select" id="deployment_type" name="deployment_type" required>
+                            <option value="cloud"  selected >cloud</option>
+                            <option value="on-premises">on-premises</option>
+                        </select>
+                    </div>
+
                     <button type="submit" class="btn btn-success">Create Request</button>
                 </form>
             </div>

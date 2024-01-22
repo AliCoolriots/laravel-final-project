@@ -2,7 +2,10 @@
 
     @section('content')
     <div class="container bg-white p-4 card shadow">
-        <h1>Create Project</h1>
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="text-primary pb-2">Create Project</h1>
+            <a href={{"/manager/requests/$id"}} class="btn btn-outline-primary pb-2">Back to The Request</a>
+        </div>
 
         <form action={{"/manager/store-project/$id"}} method="POST">
             @csrf
@@ -70,25 +73,36 @@
 
             <div class="mb-3">
                 <label for="development_methodology" class="form-label">Development Methodology</label>
-                <input type="text" class="form-control" id="development_methodology" name="development_methodology" required>
+                <input type="text" class="form-control" id="development_methodology" value="{{$request->development_methodology}}" name="development_methodology" required>
             </div>
 
             <div class="mb-3">
                 <label for="system_platform" class="form-label">System Platform</label>
                 <select class="form-select" id="system_platform" name="system_platform" required>
-                    <option value="web-based"  selected >web-based</option>
-                    <option value="mobile">mobile</option>
-                    <option value="stand-alone-system"> stand-alone system</option>
+                    <option value="web-based" @if($request->system_platform === 'web-based') selected @endif>
+                        Web-based
+                    </option>
+                    <option value="mobile" @if($request->system_platform === 'mobile') selected @endif>
+                        Mobile
+                    </option>
+                    <option value="stand-alone-system" @if($request->system_platform === 'stand-alone-system') selected @endif>
+                        Stand-alone System
+                    </option>
                 </select>
             </div>
 
             <div class="mb-3">
                 <label for="deployment_type" class="form-label">Deployment Type</label>
                 <select class="form-select" id="deployment_type" name="deployment_type" required>
-                    <option value="cloud"  selected >cloud</option>
-                    <option value="on-premises">on-premises</option>
+                    <option value="cloud" @if($request->deployment_type === 'cloud') selected @endif>
+                        cloud
+                    </option>
+                    <option value="on-premises" @if($request->deployment_type === 'cloud') selected @endif>
+                        on-premises
+                    </option>
                 </select>
             </div>
+
 
             <button type="submit" class="btn btn-success">Create Project</button>
         </form>

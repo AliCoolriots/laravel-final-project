@@ -18,20 +18,38 @@ class OwnerController extends Controller
 
         $systems = System::where('owner_id', $loggedInUserId)->get();
 
-        $requests = RequestModel::where('owner_id', $loggedInUserId)->get();
-
-        return view('owner.index',compact('owner','systems','requests'));
+        return view('owner.index',compact('systems','owner'));
     }
+
+
+    public function showProfile()
+    {
+        $user = auth()->user();
+        $role = 'Owner';
+        return view('auth.profile',compact('user','role'));
+    }
+
 
     public function systemDetails($id)
     {
-        $system = System::where('id', $id)->first(); 
+        $loggedInUserId = auth()->user()->user_id;
+        $system = System::where('id', $id)->where('owner_id', $loggedInUserId)->first(); 
 
         if (!$system)
             abort(404); 
 
         return view('owner.system-details',compact('system'));
     }
+
+    public function showRequests()
+    {
+        $loggedInUserId = auth()->user()->user_id;
+
+        $requests = RequestModel::where('owner_id', $loggedInUserId)->get();
+
+        return view('owner.show-requests',compact('requests'));
+    }
+
 
     public function createRequest()
     {
@@ -46,17 +64,21 @@ class OwnerController extends Controller
         $newRequest = RequestModel::create([
             'system_name' => $request->system_name,
             'description' => $request->system_description,
+            'development_methodology' => $request->development_methodology,
+            'system_platform' => $request->system_platform,
+            'deployment_type' => $request->deployment_type,
             'type' => 'new',
             'status' => 'pending',
             'owner_id' => $loggedInUserId,
         ]);
 
-        return redirect('owner/view-requests');
+        return redirect('owner/show-requests');
     }
 
     public function enhanceRequest($id) 
     {
-        $system = System::where('id', $id)->first(); 
+        $loggedInUserId = auth()->user()->user_id;
+        $system = System::where('id', $id)->where('owner_id', $loggedInUserId)->first(); 
         
         if($system)
             return view('owner.enhance-request',compact('id', 'system'));
@@ -73,37 +95,36 @@ class OwnerController extends Controller
             'description' => $request->system_description,
             'type' => 'enhancement',
             'status' => 'pending',
+            'development_methodology' => $request->development_methodology,
+            'system_platform' => $request->system_platform,
+            'deployment_type' => $request->deployment_type,
             'system_id' => $id,
             'owner_id' => $loggedInUserId,
         ]);
 
-        return redirect('owner/view-requests');
+        return redirect('owner/show-requests');
     }
 
-    public function viewRequests()
-    {
-        $loggedInUserId = auth()->user()->user_id;
-
-        $requests = RequestModel::where('owner_id', $loggedInUserId)->get();
-
-        return view('owner.view-requests',compact('requests'));
-    }
 
     public function deleteRequest($id)
     {
-        $request = RequestModel::where('id', $id)->first();
+        $loggedInUserId = auth()->user()->user_id;
+        $request = RequestModel::where('id', $id)->where('owner_id', $loggedInUserId)->first();
 
         if($request->status == 'pending')
             $request->delete();
         
-        return redirect('owner/view-requests');
+        return redirect('owner/show-requests');
     }
 
-    public function viewProfile()
+    public function searchSystems(Request $request)
     {
-        $user = auth()->user();
-        $role = 'Owner';
-        return view('auth.profile',compact('user','role'));
+        $query = $request->query('query');
+        $loggedInUserId = auth()->user()->user_id;
+
+        $systems = System::where('system_name', 'like', "%$query%")->where('owner_id', $loggedInUserId)->get();
+
+        return view('owner.index',compact('systems'));
     }
 
 }

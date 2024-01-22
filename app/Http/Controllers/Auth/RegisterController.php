@@ -35,17 +35,17 @@ class RegisterController extends Controller
     // protected $redirectTo = RouteServiceProvider::HOME;
 
     protected function redirectTo()
-{
-    if (auth()->user()->role == 'owner') {
-        return '/owner';
-    } elseif (auth()->user()->role == 'manager') {
-        return '/manager';
-    } elseif (auth()->user()->role == 'developer') {
-        return '/developer';
-    }
+    {
+        if (auth()->user()->role == 'owner') {
+            return '/owner';
+        } elseif (auth()->user()->role == 'manager') {
+            return '/manager';
+        } elseif (auth()->user()->role == 'developer') {
+            return '/developer/projects';
+        }
 
-    return '/';
-}
+        return '/';
+    }
 
 
     /**
@@ -81,24 +81,24 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        // $owner =  Owner::create([
-        //     'name' => $data['name'],
-        // ]);
+        $owner =  Owner::create([
+            'name' => $data['name'],
+        ]);
 
         // $manager =  Manager::create([
         //     'name' => $data['name'],
         // ]);
 
-        $developer =  Developer::create([
-            'name' => $data['name'],
-        ]);
+        // $developer =  Developer::create([
+        //     'name' => $data['name'],
+        // ]);
 
 
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'user_id' => $developer->id,
+            'user_id' => $owner->id,
         ]);
     }
 }

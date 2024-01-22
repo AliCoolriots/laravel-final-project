@@ -4,16 +4,23 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="mb-4 text-primary ">Project Progress</h1>
-            <a href={{"/manager/projects/$project->id"}} class="btn btn-outline-primary mb-4">Back to The Project</a>
+            <a href={{"/$path/projects/$project->id"}} class="btn btn-outline-primary mb-3">Back to The Project</a>
         </div>
 
-        <div class="card shadow ">
-            <div class="card-header">
+        @can('isDeveloper')
+            @if($project->leader_developer_id == $loggedInUserId && $project->status != 'completed' ) 
+                <a href={{"/developer/projects/$project->id/progress/create"}} class="btn btn-primary mb-3">Add progress</a>
+            @endif
+        @endcan
+
+        <div class="card shadow">
+            <div class="card-header d-flex justify-content-between align-items-center ">
                 <h2 class="card-title">{{ $project->system_name }}</h2>
+                <span class=" text-black  ">{{$project->status}}</span>
             </div>
             <div class="card-body bg-white">
                 <ul class="list-group list-group-flush">
-                    @forelse ($progress as $Aprogress)
+                    @forelse ($progress->reverse() as $Aprogress)
                         <li class="list-group-item bg-white">
                             <div class="mb-2">
                                 <strong class="text-primary">Date:</strong> {{ $Aprogress->date }}

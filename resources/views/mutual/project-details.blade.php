@@ -1,10 +1,10 @@
-@extends('layouts.app') 
+@extends('layouts.app')
 
 @section('content')
-    <div class="container mb-3" >
+    <div class="container mb-3">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="mb-4 text-primary">Project Details</h1>
-            <a href="/developer" class="mb-4 btn btn-outline-primary">Back to Projects</a>
+            <a href={{"/$path/projects"}} class="btn btn-outline-primary mb-4">Back to Projects</a>
         </div>
 
         <div class="card shadow bg-white">
@@ -21,10 +21,12 @@
                             <th scope="row" class="text-muted">System Pic</th>
                             <td>{{ $project->system_pic }}</td>
                         </tr>
-                        {{-- <tr>
+                        {{-- 
+                        <tr>
                             <th scope="row" class="text-muted">Leader developer</th>
                             <td>{{ $project->leaderdeveloper->name }}</td>
-                        </tr> --}}
+                        </tr>
+                        --}}
                         <tr>
                             <th scope="row" class="text-muted">Start Date</th>
                             <td>{{ $project->start_date }}</td>
@@ -61,13 +63,19 @@
                     @forelse ($project->developers as $developer)
                         <li class="list-group-item">{{ $developer->name }}</li>
                     @empty
-                        <li class="text-warning">No developers have been assigend yet</li>
+                        <li class="list-group-item text-warning">No developers have been assigned yet</li>
                     @endforelse
                 </ul>
-
-                <div class="mt-4 d-flex gap-2 ">
-                    <a href={{"/developer/projects/$project->id/progress"}} class="btn btn-outline-primary">Progress</a>
+          
+                <div class="mt-4 d-flex gap-2">
+                    <a href={{ "/$path/projects/{$project->id}/progress" }} class="btn btn-outline-primary">Progress</a>
+                    @can('isManager')
+                        @if($project->status != 'completed')
+                            <a href={{ "/manager/projects/{$project->id}/edit" }} class="btn btn-primary ml-3">Edit Project</a>
+                        @endif
+                    @endcan
                 </div>
+
             </div>
         </div>
     </div>
