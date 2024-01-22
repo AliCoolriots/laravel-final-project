@@ -42,11 +42,11 @@
 
             {{-- <div class="mb-3">
                 <label for="status" class="form-label">Status</label>
-                <select class="form-select" id="status" name="status" required>
-                    <option value="ahead_of_schedule">Ahead of Schedule</option>
-                    <option value="on_schedule">On Schedule</option>
-                    <option value="delayed">Delayed</option>
-                    <option value="completed">Completed</option>
+                <select class="form-select" id="status" name="status" readonly required>
+                    <option value="Ahead of Schedule">Ahead of Schedule</option>
+                    <option value="On Schedule">On Schedule</option>
+                    <option value="Delayed">Delayed</option>
+                    <option value="Completed">Completed</option>
                 </select>
             </div> --}}
 
@@ -59,7 +59,7 @@
                 </select>
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3 assign-container">
                 <label class="form-label">Assign Developers</label>
                 @foreach($developers as $developer)
                     <div class="form-check">
@@ -97,7 +97,7 @@
                     <option value="cloud" @if($request->deployment_type === 'cloud') selected @endif>
                         cloud
                     </option>
-                    <option value="on-premises" @if($request->deployment_type === 'cloud') selected @endif>
+                    <option value="on-premises" @if($request->deployment_type === 'on-premises') selected @endif>
                         on-premises
                     </option>
                 </select>

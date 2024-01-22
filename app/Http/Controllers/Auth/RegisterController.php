@@ -85,15 +85,6 @@ class RegisterController extends Controller
             'name' => $data['name'],
         ]);
 
-        // $manager =  Manager::create([
-        //     'name' => $data['name'],
-        // ]);
-
-        // $developer =  Developer::create([
-        //     'name' => $data['name'],
-        // ]);
-
-
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],

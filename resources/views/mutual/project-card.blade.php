@@ -26,7 +26,7 @@
         @can('isManager')
             <div class="card-footer gap-2 d-flex">
                 <a href={{"/manager/projects/$project->id"}} class="btn btn-primary">View Details</a>
-                @if($project->status == 'completed' && $project->approved == 0 )
+                @if($project->status == 'Completed' && $project->approved == 0 )
                 <a href={{"/manager/approve-project/$project->id"}} class="btn btn-success ">Approve</a>
                 @endif
             </div>

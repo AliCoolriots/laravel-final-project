@@ -80,7 +80,7 @@ class ManagerController extends Controller
             'start_date' => $request->start_date,
             'duration' => $request->duration,
             'end_date' => $request->end_date,
-            'status' => 'on_schedule',
+            'status' => 'On Schedule',
             'development_methodology' => $request->development_methodology,
             'system_platform' => $request->system_platform,
             'deployment_type' => $request->deployment_type,
@@ -129,7 +129,7 @@ class ManagerController extends Controller
     {
         $project = Project::where('id', $id)->first(); 
         
-        if($project->status == 'completed' && $project->approved == 0)
+        if($project->status == 'Completed' && $project->approved == 0)
         {
             if($project->request_type == 'new')
             {
@@ -199,18 +199,8 @@ class ManagerController extends Controller
     {
         $query = $request->query('query');
 
-        $projects = Project::where('system_name', 'like', "%$query%")->get();
-
-        $activeProjects = [];
-        $completedProjects = [];
-
-        foreach($projects as $project)
-        {
-            if($project->approved == 1)
-                array_push($completedProjects, $project);
-            else
-                array_push($activeProjects, $project);
-        }
+        $activeProjects = Project::where('system_name', 'like', "%$query%")->where('approved', 0)->get();
+        $completedProjects = Project::where('system_name', 'like', "%$query%")->where('approved', 1)->get();
 
         $path = 'manager';
 

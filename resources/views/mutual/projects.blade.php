@@ -35,7 +35,7 @@
         <div class="tab-content mt-3">
             <div class="tab-pane fade show active" id="activeProjects">
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                    @forelse ($activeProjects as $project)
+                    @forelse ($activeProjects?->reverse() as $project)
                         @include('mutual.project-card', ['project' => $project])
                     @empty
                         <div class="col">
@@ -49,7 +49,7 @@
 
             <div class="tab-pane fade" id="completedProjects">
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                    @forelse ($completedProjects as $project)
+                    @forelse ($completedProjects->reverse() as $project)
                         @include('mutual.project-card', ['project' => $project])
                     @empty
                         <div class="col">

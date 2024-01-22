@@ -55,7 +55,7 @@ if (progress_date) {
     });
 
     document.querySelector('form').addEventListener('submit', function() {
-        const assignDevelopersContainer = document.querySelector('.mb-3');
+        const assignDevelopersContainer = document.querySelector('.assign-container');
 
         assignDeveloperCheckboxes.forEach(function(checkbox) {
             const parentDiv = checkbox.parentNode;

@@ -17,16 +17,19 @@ class DeveloperController extends Controller
 
         $developerProjects = $developer->projects->merge($developer->leadingProjects);
 
-        $activeProjects = [];
-        $completedProjects = [];
+        $activeProjectsArray = [];
+        $completedProjectsArray = [];
 
         foreach($developerProjects as $project)
         {
-            if($project->status == 'completed')
-                array_push($completedProjects, $project);
+            if($project->status == 'Completed')
+                array_push($completedProjectsArray, $project);
             else
-                array_push($activeProjects, $project);
+                array_push($activeProjectsArray, $project);
         }
+
+        $activeProjects=collect($activeProjectsArray);
+        $completedProjects=collect($completedProjectsArray);
 
         $path = 'developer';
 
@@ -79,7 +82,7 @@ class DeveloperController extends Controller
         $loggedInUserId = auth()->user()->user_id;
         $project = Project::where('id', $id)->first(); 
 
-        if (!$project || $project->status == 'completed' || $project->leader_developer_id != $loggedInUserId )
+        if (!$project || $project->status == 'Completed' || $project->leader_developer_id != $loggedInUserId )
             abort(404); 
 
         return view('developer.create-progress',compact('project'));
@@ -90,7 +93,7 @@ class DeveloperController extends Controller
         $loggedInUserId = auth()->user()->user_id;
         $project = Project::where('id', $id)->first(); 
 
-        if (!$project || $project->leader_developer_id != $loggedInUserId || $project->status == 'completed' )
+        if (!$project || $project->leader_developer_id != $loggedInUserId || $project->status == 'Completed' )
             abort(404); 
 
         Progress::create([
@@ -121,16 +124,19 @@ class DeveloperController extends Controller
             return stripos($project->system_name, $query) !== false;
         });
 
-        $activeProjects = [];
-        $completedProjects = [];
+        $activeProjectsArray = [];
+        $completedProjectsArray = [];
 
         foreach($projects as $project)
         {
-            if($project->status == 'completed')
-                array_push($completedProjects, $project);
+            if($project->status == 'Completed')
+                array_push($completedProjectsArray, $project);
             else
-                array_push($activeProjects, $project);
+                array_push($activeProjectsArray, $project);
         }
+
+        $activeProjects=collect($activeProjectsArray);
+        $completedProjects=collect($completedProjectsArray);
 
         $path = 'developer';
 

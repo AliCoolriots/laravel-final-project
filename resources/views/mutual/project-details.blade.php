@@ -63,14 +63,14 @@
                     @forelse ($project->developers as $developer)
                         <li class="list-group-item">{{ $developer->name }}</li>
                     @empty
-                        <li class="list-group-item text-warning">No developers have been assigned yet</li>
+                        <li class="list-group-item text-danger">No developers have been assigned yet</li>
                     @endforelse
                 </ul>
           
                 <div class="mt-4 d-flex gap-2">
                     <a href={{ "/$path/projects/{$project->id}/progress" }} class="btn btn-outline-primary">Progress</a>
                     @can('isManager')
-                        @if($project->status != 'completed')
+                        @if($project->status != 'Completed')
                             <a href={{ "/manager/projects/{$project->id}/edit" }} class="btn btn-primary ml-3">Edit Project</a>
                         @endif
                     @endcan

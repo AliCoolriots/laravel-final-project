@@ -8,7 +8,7 @@
         </div>
 
         @can('isDeveloper')
-            @if($project->leader_developer_id == $loggedInUserId && $project->status != 'completed' ) 
+            @if($project->leader_developer_id == $loggedInUserId && $project->status != 'Completed' ) 
                 <a href={{"/developer/projects/$project->id/progress/create"}} class="btn btn-primary mb-3">Add progress</a>
             @endif
         @endcan
@@ -16,7 +16,7 @@
         <div class="card shadow">
             <div class="card-header d-flex justify-content-between align-items-center ">
                 <h2 class="card-title">{{ $project->system_name }}</h2>
-                <span class=" text-black  ">{{$project->status}}</span>
+                <span class="text-black  ">{{$project->status}}</span>
             </div>
             <div class="card-body bg-white">
                 <ul class="list-group list-group-flush">

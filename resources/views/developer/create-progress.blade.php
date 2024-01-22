@@ -21,10 +21,10 @@
             <div class="mb-3">
                 <label for="status" class="form-label">Status</label>
                 <select class="form-select" id="status" name="status" required>
-                    <option value="ahead_of_schedule">Ahead of Schedule</option>
-                    <option value="on_schedule">On Schedule</option>
-                    <option value="delayed">Delayed</option>
-                    <option value="completed">Completed</option>
+                    <option value="Ahead of Schedule">Ahead of Schedule</option>
+                    <option value="On Schedule">On Schedule</option>
+                    <option value="Delayed">Delayed</option>
+                    <option value="Completed">Completed</option>
                 </select>
             </div>
 
